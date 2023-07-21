@@ -1,0 +1,222 @@
+How to bind a dashboard on new project :-
+
+-> Include dashboard files on the project folder
+-> Create new database on mysql ( eg: vanam_dashboard )
+-> Import the query file on the database ( dashboard/sql/vanam_dashboard )
+-> libs/includes/databse.class.php - should be change database name on both lines
+
+How to bind the project on dashboard :-
+
+-> Each and every pages should have databse connection ( 'dashboard/libs/load.php' ) ( or )
+   Have a common page ( main_top.php ) once connect the database otherwise not connect another pages.
+-> I already show the demo correction section on each and every page bottom in dashboard files.
+-> If you need to implement any other page on project , you can copy the code and use it.
+-> The front end code on below :- 
+
+Front-End Codes:-
+
+1. Profile Master 
+	a. Logo
+		
+		<!-- PHP if Code Start --> 
+		<?php 
+			$sql = "SELECT * FROM logo";
+			$res = mysqli_query($conn,  $sql);
+			if ($images = mysqli_fetch_assoc($res)) { 
+		?>
+		
+		<!-- HTML Logo Code -->
+		<img src="dashboard/uploads/logo/<?=$images['logo_url']?>" alt="logo">
+				
+		<!-- PHP if Code End -->
+		<?php	
+			}
+		?>
+		
+	b. Contact Info
+	
+		<!-- PHP Code -->
+		<?php
+			$query = "SELECT clandlinenumber, cnumber, cwhatsapp, cemail FROM contacts";
+			$result = mysqli_query($conn, $query);
+			$row = mysqli_fetch_assoc($result);
+		?>
+		
+		<!-- HTML Code -->
+		<p><?php echo $row['clandlinenumber']; ?> </p>
+		<p><?php echo $row['cnumber']; ?> </p>
+		<p><?php echo $row['cwhatsapp']; ?> </p>
+		<p><?php echo $row['cemail']; ?> </p>
+		 
+	c. Social Media 
+	
+		<!-- PHP Code -->
+		<?php
+			$query = "SELECT facebook, instagram, youtube, twitter FROM social";
+			$result = mysqli_query($conn, $query);
+			$row = mysqli_fetch_assoc($result);
+		?>
+		
+		<!-- HTML Code -->
+		<a target="_blank" href="<?php echo $row['facebook']; ?>"> </a>
+		<a target="_blank" href="<?php echo $row['instagram']; ?>"> </a>
+		<a target="_blank" href="<?php echo $row['youtube']; ?>"> </a>
+		<a target="_blank" href="<?php echo $row['twitter']; ?>"> </a>
+		
+2. Djubo Master	
+	a. Update
+	
+		<!-- PHP Code -->
+		<?php
+			$query = "SELECT book, quick FROM djubo";
+			$result = mysqli_query($conn, $query);
+			$row = mysqli_fetch_assoc($result);
+		?>
+		
+		<!-- HTML Code -->
+		<a target="_blank" href="<?php echo $row['book']; ?>"> </a>
+		
+3. Rooms Master 
+	a. Rooms
+		
+		<!-- PHP Code Deluxe Room -->
+		<?php
+			$username = "rooms";
+			$userobj = new user($username);
+			$userobj->getroom_a();
+		?>
+		
+		<!-- PHP Code Super Deluxe Room -->
+		<?php
+			$username = "rooms";
+			$userobj = new user($username);
+			$userobj->getroom_b();
+		?>
+		
+		<!-- PHP Code Premium Room -->
+		<?php
+			$username = "rooms";
+			$userobj = new user($username);
+			$userobj->getroom_c();
+		?>
+		
+4. Gallery Master 
+	a. Upload
+		
+		<!-- PHP Code Out Door Look -->
+		<!-- PHP While Code Start -->
+		<?php 
+			$sql = "SELECT * FROM deluxe ORDER BY id DESC ";
+			$res = mysqli_query($conn, $sql);
+			while ($images = mysqli_fetch_assoc($res)) {  
+		?>
+			
+		<!-- HTML Code -->
+		<a data-fancybox="gallery" href="dashboard/uploads/deluxe/<?=$images['image_url']?>">
+			<img class="img-fluid rounded my-3" src="dashboard/uploads/deluxe/<?=$images['image_url']?>"style="width:360px;height:240px;" />
+		</a>
+				
+		<!-- PHP While Code End -->
+		<?php
+			}
+		?>
+		
+		<!-- PHP Code Rooms -->
+		<!-- PHP While Code Start -->
+		<?php 
+			$sql = "SELECT * FROM super ORDER BY id DESC ";
+			$res = mysqli_query($conn, $sql);
+			while ($images = mysqli_fetch_assoc($res)) { 
+		?>
+			
+		<!-- HTML Code -->
+		<a data-fancybox="gallery" href="dashboard/uploads/super/<?=$images['image_url']?>">
+			<img class="img-fluid rounded my-3" src="dashboard/uploads/super/<?=$images['image_url']?>"style="width:360px;height:240px;" />
+		</a>
+				
+		<!-- PHP While Code End -->
+		<?php
+			}
+		?>
+		
+		<!-- PHP Code Sit Out Area -->
+		<!-- PHP While Code Start -->
+		<?php 
+			$sql = "SELECT * FROM premium ORDER BY id DESC ";
+			$res = mysqli_query($conn, $sql);
+			while ($images = mysqli_fetch_assoc($res)) {
+		?>
+			
+		<!-- HTML Code -->
+		<a data-fancybox="gallery" href="dashboard/uploads/premium/<?=$images['image_url']?>">
+			<img class="img-fluid rounded my-3" src="dashboard/uploads/premium/<?=$images['image_url']?>"style="width:360px;height:240px;" />
+		</a>
+				
+		<!-- PHP While Code End -->
+		<?php
+			}
+		?>
+		
+5. Review Master 
+	a. Reviews
+		
+		<!-- PHP While Code Start -->
+		<?php
+			$query = "SELECT id, name, reviews FROM review ORDER BY id DESC";
+			$result = mysqli_query($conn, $query);
+			while($row = mysqli_fetch_assoc($result)) {
+		?>
+		
+		<!-- HTML Code -->
+		<p><?php echo $row['name']; ?> </p>
+        <p><?php echo $row['reviews']; ?> </p>
+		
+		<!-- PHP While Code End -->
+		<?php
+			}
+		?>
+		
+6. Policy Master 
+	a. Terms 
+	
+		<!-- PHP if Code Start -->
+		<?php 
+			$sql = "SELECT * FROM terms";
+			$res = mysqli_query($conn,  $sql);
+			if ($images = mysqli_fetch_assoc($res)) { 
+		?>
+		
+		<!-- HTML Pdf Code -->
+		
+		<!-- Open On Next Tap Code -->	
+		<a target="_blank" href="dashboard/uploads/terms/<?=$images['pdf_url']?>"><img src="<!-- pdf image -->" alt="pdf"></a>
+		
+		<!-- Embed Pdf On Body Of The Page -->	
+		<embed src="dashboard/uploads/terms/<?=$images['pdf_url']?>" width="100%" height="1120px" />
+		
+		<!-- PHP if Code End -->
+		<?php	
+			}
+		?>
+		
+	b. Policy
+	
+		<!-- PHP if Code Start -->
+		<?php 
+			$sql = "SELECT * FROM policy";
+			$res = mysqli_query($conn,  $sql);
+			if ($images = mysqli_fetch_assoc($res)) { 
+		?>
+		
+		<!-- HTML Pdf Code -->
+		
+		<!-- Open On Next Tap Code -->	
+		<a target="_blank"href="dashboard/uploads/policy/<?=$images['pdf_url']?>"><img src="<!-- pdf image -->" alt="people"></a>
+		
+		<!-- Embed Pdf On Body Of The Page -->	
+		<embed src="dashboard/uploads/policy/<?=$images['pdf_url']?>" width="100%" height="1120px" />
+		
+		<!-- PHP if Code End -->
+		<?php	
+			}
+		?>
